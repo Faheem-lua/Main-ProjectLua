@@ -62,19 +62,19 @@ local aimViewerEnabled = false
 local ignoreSelf = true
 
 local Window = Rayfield:CreateWindow({
-    Name = "▶ Universal Hub ◀",
-    LoadingTitle = "Loading...",
-    LoadingSubtitle = "by Agreed 🥵",
+    Name = "★Universal Aimbot™",
+    LoadingTitle = "Loading Script...",
+    LoadingSubtitle = "Made By Faheem",
     ConfigurationSaving = {
         Enabled = true,
-        FolderName = "UniversalHub",
-        FileName = "byAgreed"
+        FolderName = "AimbotHub",
+        FileName = "byFaheem"
     },
 })
 
-local Aimbot = Window:CreateTab("Aimbot 🎯")
-local AntiAim = Window:CreateTab("Anti-Aim 😡")
-local Misc = Window:CreateTab("Misc 🤷‍♂️")
+local Aimbot = Window:CreateTab("Aimbot")
+local AntiAim = Window:CreateTab("Anti-Aim")
+local Misc = Window:CreateTab("Misc")
 
 local fovCircle = Drawing.new("Circle")
 fovCircle.Thickness = 2
