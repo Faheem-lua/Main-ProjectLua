@@ -1,0 +1,107 @@
+
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "Made by Karma - Style Changer - Need Reo.",
+    LoadingTitle = "Made by Karma",
+    LoadingSubtitle = "Style changer and flow changer",
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = nil,
+        FileName = "style_changer"
+    },
+    KeySystem = true,
+    KeySettings = {
+        Title = "Key System",
+        Subtitle = "Authentication Required",
+        Note = "You should receive a key from me; otherwise, close the script.",
+        FileName = "Key", 
+        SaveKey = false,
+        GrabKeyFromSite = false,
+        Key = {"Souls and Karma"}
+    }
+})
+
+-- Creating Main Tab (Styles)
+local MainTab = Window:CreateTab("Style", 4483362458)
+
+-- Style Button Function
+local function createStyleButton(styleName)
+    MainTab:CreateButton({
+        Name = "Get " .. styleName,
+        Callback = function()
+            game.Players.LocalPlayer.PlayerStats.Style.Value = styleName
+        end
+    })
+end
+
+-- Style List
+local styles = {
+    "Aiku", "Bachira", "Chigiri", "Don Lorenzo", "Gagamaru", "Hiori", "Isagi",
+    "Karasu", "King", "Kunigami", "Nagi", "Otoya", "Rin", "Reo", "Sae",
+    "Shidou", "Yukimiya", "Kurona", "NEL Isagi"
+}
+
+-- Create Style Buttons
+for _, style in ipairs(styles) do
+    createStyleButton(style)
+end
+
+-- Reset Style Button
+MainTab:CreateButton({
+    Name = "Reset Style",
+    Callback = function()
+        game.Players.LocalPlayer.PlayerStats.Style.Value = "Default"
+    end
+})
+
+-- Creating Flow Tab
+local FlowTab = Window:CreateTab("Flow", 4483362458) -- You can change the icon ID if needed
+
+-- Flow Activation Function
+local function activateFlow(flowName)
+    game.Players.LocalPlayer.PlayerStats.Flow.Value = flowName
+    game.Players.LocalPlayer.PlayerStats.inFlow.Value = true
+end
+
+-- Flow List
+local flows = {
+    "Prodigy",
+    "Awakened Genius",
+    "Dribbler",
+    "Snake",
+    "Ice",
+    "Soul Harvester",
+    "Wild Card"
+}
+
+-- Create Flow Buttons
+for _, flow in ipairs(flows) do
+    FlowTab:CreateButton({
+        Name = "Activate " .. flow,
+        Callback = function()
+            activateFlow(flow)
+        end
+    })
+end
+
+-- Flow Toggle Section
+FlowTab:CreateSection("Flow Management")
+
+-- Toggle to Keep inFlow Always Active
+FlowTab:CreateToggle({
+    Name = "Maintain Flow State",
+    CurrentValue = true,
+    Callback = function(value)
+        game.Players.LocalPlayer.PlayerStats.inFlow.Value = value
+    end
+})
+
+-- Reset Flow Button
+FlowTab:CreateButton({
+    Name = "Reset Flow",
+    Callback = function()
+        game.Players.LocalPlayer.PlayerStats.Flow.Value = "None"
+        game.Players.LocalPlayer.PlayerStats.inFlow.Value = false
+    end
+})
