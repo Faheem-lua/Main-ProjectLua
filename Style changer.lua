@@ -1,81 +1,75 @@
-
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
+-- Create the Main Window
 local Window = Rayfield:CreateWindow({
-    Name = "Made by Karma - Style Changer - Need Reo.",
-    LoadingTitle = "Made by Karma",
-    LoadingSubtitle = "Style changer and flow changer",
+    Name = "Style & Flow Changed | Blue Loc: Rivals",
+    LoadingTitle = "Welcome to Faheem Alpha script..",
+    LoadingSubtitle = "Style and Flow Management",
     ConfigurationSaving = {
         Enabled = true,
-        FolderName = nil,
-        FileName = "style_changer"
+        FolderName = "RayfieldConfigs", -- Folder to save configurations
+        FileName = "StyleFlowSettings"
     },
     KeySystem = true,
     KeySettings = {
-        Title = "Key System",
-        Subtitle = "Authentication Required",
-        Note = "You should receive a key from me; otherwise, close the script.",
-        FileName = "Key", 
-        SaveKey = false,
+        Title = "Authentication Required",
+        Subtitle = "Enter your key to access",
+        Note = "Key its supported ",
+        FileName = "UserKey",
+        SaveKey = true, -- Save key locally for convenience
         GrabKeyFromSite = false,
-        Key = {"Souls and Karma"}
+        Key = {"say"}
     }
 })
 
--- Creating Main Tab (Styles)
-local MainTab = Window:CreateTab("Style", 4483362458)
+-- Create the Styles Tab
+local StylesTab = Window:CreateTab("Styles", 4483362458)
 
--- Style Button Function
+-- Function to Dynamically Create Style Buttons
 local function createStyleButton(styleName)
-    MainTab:CreateButton({
-        Name = "Get " .. styleName,
+    StylesTab:CreateButton({
+        Name = "Select style!" .. styleName,
         Callback = function()
             game.Players.LocalPlayer.PlayerStats.Style.Value = styleName
         end
     })
 end
 
--- Style List
+-- List of Available Styles
 local styles = {
     "Aiku", "Bachira", "Chigiri", "Don Lorenzo", "Gagamaru", "Hiori", "Isagi",
     "Karasu", "King", "Kunigami", "Nagi", "Otoya", "Rin", "Reo", "Sae",
     "Shidou", "Yukimiya", "Kurona", "NEL Isagi"
 }
 
--- Create Style Buttons
+-- Generate Buttons for Each Style
 for _, style in ipairs(styles) do
     createStyleButton(style)
 end
 
--- Reset Style Button
-MainTab:CreateButton({
-    Name = "Reset Style",
+-- Reset Style to Default
+StylesTab:CreateButton({
+    Name = "Reset to Default Style",
     Callback = function()
         game.Players.LocalPlayer.PlayerStats.Style.Value = "Default"
     end
 })
 
--- Creating Flow Tab
-local FlowTab = Window:CreateTab("Flow", 4483362458) -- You can change the icon ID if needed
+-- Create the Flow Tab
+local FlowTab = Window:CreateTab("Flow", 4483362458)
 
--- Flow Activation Function
+-- Function to Activate a Flow
 local function activateFlow(flowName)
     game.Players.LocalPlayer.PlayerStats.Flow.Value = flowName
     game.Players.LocalPlayer.PlayerStats.inFlow.Value = true
 end
 
--- Flow List
+-- List of Available Flows
 local flows = {
-    "Prodigy",
-    "Awakened Genius",
-    "Dribbler",
-    "Snake",
-    "Ice",
-    "Soul Harvester",
-    "Wild Card"
+    "Prodigy", "Awakened Genius", "Dribbler", "Snake", "Ice", "Soul Harvester", "Wild Card"
 }
 
--- Create Flow Buttons
+-- Generate Buttons for Each Flow
 for _, flow in ipairs(flows) do
     FlowTab:CreateButton({
         Name = "Activate " .. flow,
@@ -85,19 +79,19 @@ for _, flow in ipairs(flows) do
     })
 end
 
--- Flow Toggle Section
+-- Add Flow Management Section
 FlowTab:CreateSection("Flow Management")
 
--- Toggle to Keep inFlow Always Active
+-- Toggle to Maintain Flow State
 FlowTab:CreateToggle({
-    Name = "Maintain Flow State",
+    Name = "Keep Flow Always Active",
     CurrentValue = true,
     Callback = function(value)
         game.Players.LocalPlayer.PlayerStats.inFlow.Value = value
     end
 })
 
--- Reset Flow Button
+-- Reset Flow
 FlowTab:CreateButton({
     Name = "Reset Flow",
     Callback = function()
