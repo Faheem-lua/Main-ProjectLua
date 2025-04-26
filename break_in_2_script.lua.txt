@@ -1,0 +1,137 @@
+-- Delta Executor Script for Break In 2
+-- **Disclaimer: This script is for educational purposes only**
+
+-- GUI Library
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xyz/UILibrary/main/source"))()
+
+local Window = Library:CreateWindow("Break In 2 Executor")
+local PlayerTab = Window:CreateTab("Local Player")
+local MainTab = Window:CreateTab("Main Features")
+local ItemsTab = Window:CreateTab("Items")
+local QuestsTab = Window:CreateTab("Quests")
+local TeleportTab = Window:CreateTab("Teleport")
+local TrollTab = Window:CreateTab("Troll")
+
+-- Local Player Features
+PlayerTab:CreateButton("Infinite Jump", function()
+    local UIS = game:GetService("UserInputService")
+    UIS.JumpRequest:Connect(function()
+        game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+    end)
+end)
+
+PlayerTab:CreateButton("Noclip", function()
+    game:GetService("RunService").Stepped:Connect(function()
+        if game.Players.LocalPlayer.Character then
+            for _, part in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                if part:IsA("BasePart") and part.CanCollide then
+                    part.CanCollide = false
+                end
+            end
+        end
+    end)
+end)
+
+PlayerTab:CreateButton("Anti AFK", function()
+    local vu = game:GetService("VirtualUser")
+    game:GetService("Players").LocalPlayer.Idled:Connect(function()
+        vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+        wait(1)
+        vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+    end)
+end)
+
+PlayerTab:CreateSlider("Walkspeed", 16, 100, 16, function(value)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+end)
+
+PlayerTab:CreateSlider("Jump Height", 50, 300, 50, function(value)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = value
+end)
+
+PlayerTab:CreateSlider("Health Changer", 100, 1000, 100, function(value)
+    game.Players.LocalPlayer.Character.Humanoid.MaxHealth = value
+    game.Players.LocalPlayer.Character.Humanoid.Health = value
+end)
+
+-- Main Features
+MainTab:CreateButton("Kill Aura", function()
+    while wait(0.1) do
+        for _, enemy in pairs(game.Workspace.Enemies:GetChildren()) do
+            if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health > 0 then
+                enemy.Humanoid:TakeDamage(50)
+            end
+        end
+    end
+end)
+
+MainTab:CreateButton("Bring Enemies", function()
+    for _, enemy in pairs(game.Workspace.Enemies:GetChildren()) do
+        if enemy:FindFirstChild("HumanoidRootPart") then
+            enemy.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        end
+    end
+end)
+
+MainTab:CreateButton("Bring Enemies Away", function()
+    for _, enemy in pairs(game.Workspace.Enemies:GetChildren()) do
+        if enemy:FindFirstChild("HumanoidRootPart") then
+            enemy.HumanoidRootPart.CFrame = CFrame.new(0, 100, 0) -- Teleport enemies far away
+        end
+    end
+end)
+
+MainTab:CreateButton("Stuck Enemies", function()
+    for _, enemy in pairs(game.Workspace.Enemies:GetChildren()) do
+        if enemy:FindFirstChild("HumanoidRootPart") then
+            enemy.HumanoidRootPart.Anchored = true
+        end
+    end
+end)
+
+MainTab:CreateButton("Auto Heal Self", function()
+    while wait(4) do
+        local player = game.Players.LocalPlayer
+        if player.Character and player.Character:FindFirstChild("Humanoid") then
+            player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
+        end
+    end
+end)
+
+MainTab:CreateButton("Auto Heal All", function()
+    while wait(7) do
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player.Character and player.Character:FindFirstChild("Humanoid") then
+                player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
+            end
+        end
+    end
+end)
+
+MainTab:CreateButton("Anti Ice Slip", function()
+    -- Prevent slipping on ice
+    local player = game.Players.LocalPlayer
+    player.Character.HumanoidRootPart.Velocity = Vector3.new(0, 0, 0)
+end)
+
+MainTab:CreateButton("Kaitun (Instant MAX)", function()
+    local player = game.Players.LocalPlayer
+    player.Character.Humanoid.MaxHealth = 1000
+    player.Character.Humanoid.Health = 1000
+    player.Character.Humanoid.WalkSpeed = 100
+    player.Character.Humanoid.JumpPower = 150
+    -- Add additional logic to grant weapons and items
+end)
+
+MainTab:CreateButton("Instant Die", function()
+    local confirm = Library:CreatePrompt("Confirmation", "Are you sure you want to die?", function(confirmed)
+        if confirmed then
+            game.Players.LocalPlayer.Character.Humanoid.Health = 0
+        end
+    end)
+end)
+
+-- Additional sections for Items, Quests, Teleport, and Troll features can be implemented similarly
+
+-- Notify User
+Library:Notify("Executor Loaded", "Welcome to Break In 2 Executor!")
