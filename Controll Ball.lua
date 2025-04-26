@@ -26,7 +26,7 @@ local controlButton = Instance.new("TextButton")
 controlButton.Size = UDim2.new(0.2, 0, 0.1, 0)
 controlButton.Position = UDim2.new(0.02, 0, 0.2, 0)
 controlButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-controlButton.Text = "CONTROL"
+controlButton.Text = "Controll Ball"
 controlButton.Parent = screenGui
 
 -- Control frame (hidden by default)
@@ -65,7 +65,7 @@ local creditLabel = Instance.new("TextLabel")
 creditLabel.Size = UDim2.new(0.3, 0, 0.1, 0)
 creditLabel.Position = UDim2.new(0.35, 0, 0.35, 0)
 creditLabel.BackgroundTransparency = 1
-creditLabel.Text = "Made by Jack"
+creditLabel.Text = "Made by Faheem"
 creditLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 creditLabel.TextScaled = true
 creditLabel.Parent = screenGui
