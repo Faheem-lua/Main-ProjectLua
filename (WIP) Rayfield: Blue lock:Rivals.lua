@@ -82,7 +82,7 @@ local Button = Tab:CreateButton({
    Callback = function()
      local function activateFlow(flowName)
     game.Players.LocalPlayer.PlayerStats.Flow.Value = flowName
-    game.Players.LocalPlayer.PlayerStats.inFlow.Value = true
+    game.Players.LocalPlayer.PlayerStats.InFlow.Value = true
          end
    end,
 })
