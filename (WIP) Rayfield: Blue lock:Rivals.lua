@@ -132,3 +132,42 @@ local Button = Tab:CreateButton({
    end,
 })
 
+local Tab = Window:CreateTab("Guide", 4483362458) -- Title, Image
+
+local Paragraph = Tab:CreateParagraph({Title = "Guidelines", Content = "shield-check"})
+
+local Button = Tab:CreateButton({
+   Name = "Guide!",
+   Callback = function()
+   --hanam
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Style won't working i got you/ firts you need reo for the style works!",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "For the flow its Fe but the skills its working you should have reo to!!",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "! CREDITS !",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "•Faheem = Script, Lua Code, Owner. •Touka = Freind, main idea, Advanced Code, Gemini Ai! = Helper Situation Problematic.",
+   Callback = function()
+   -- The function that takes place when the button is pressed
+   end,
+})
+
