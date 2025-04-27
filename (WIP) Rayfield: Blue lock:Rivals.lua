@@ -1,173 +1,148 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "Blue Lock: Rivals | Glorious Emperor's Hub",
-   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-   LoadingTitle = "Glorious Emperor's Hub Interface..",
-   LoadingSubtitle = "Made By Faheem",
-   Theme = "Amethyst", -- Check https://docs.sirius.menu/rayfield/configuration/themes
-
-   DisableRayfieldPrompts = true,
-   DisableBuildWarnings = true, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+   Name = "★ Blue lock: Rivals ★",
+   Icon = 0,
+   LoadingTitle = "The Official Hub is loading",
+   LoadingSubtitle = "Please Be Patient The Hub Should Load..",
+   Theme = "Amethyst",
+   
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false,
 
    ConfigurationSaving = {
       Enabled = true,
-      FolderName = Kaiser-- Create a custom folder for your hub/game
-      FileName = "Emperor's Hub"
+      FolderName = "FaheemPack", -- Custom folder for your hub/game
+      FileName = "FaheemPackScript"
    },
 
    Discord = {
-      Enabled = true, -- Prompt the user to join your Discord server if their executor supports it
-      Invite = "discord.user/foxlowx", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
-      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+      Enabled = true,
+      Invite = "discord.gg/Arbix", 
+      RememberJoins = true
    },
 
-   KeySystem = true, -- Set this to true to use our key system
+   KeySystem = true,
    KeySettings = {
-      Title = "Keysystem",
-      Subtitle = "Get system by completely the  link below..",
-      Note = "For Glorious Emperor's Hub link should not be take last long!", -- Use this to tell the user how to get a key
-      FileName = "Ketse", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
-      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
-      GrabKeyFromSite = https://pastefy.app/LZ2bAcGv/raw, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
-      Key = {"StrongerGloriusKey_a9b2Kd*7Lm&pQx!R3zEw#Fv6Cy$tUj%oHn^iS1gBk(4Dr)Ym<5Ws>qZf{0Xu}jTc[8Vb]lN-2Po+9Gh;sA/eJ:"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+      Title = "★Authentication™",
+      Subtitle = "The Key System Service | Protected By Gemini™",
+      Note = "The Key is = GeminiAi",
+      FileName = "Key",
+      SaveKey = true,
+      GrabKeyFromSite = false,
+      Key = {"GeminiAi"}
    }
 })
 
-local Tab = Window:CreateTab("Main", 4483362458) -- Title, Image
+local Tab = Window:CreateTab("Main™", 4483362458)
+local Section = Tab:CreateSection("LocalPlayer")
 
-local Button = Tab:CreateButton({
-   Name = "Get Style",
-   Callback = function()
-     game.Players.LocalPlayer.PlayerStats.Style.Value = styleName
-   end,
-})
--- Style List
-local styles = {
-    "Isagi", "Chigiri", "Bachira", "Igaguri", "Hiori", "Otoya", "Reo",
-    "Karasu", "Nagi", "Kurona", "King", "Rin", "Yukimiya", "Kunigami", "Shidou",
-    "Sae", "Don Lorenzo", "Kaiser", "NEL Isagi"
-}
-
--- Create Style Buttons
-for _, style in ipairs(styles) do
-    createStyleButton(style)
-end
-
-local Button = Tab:CreateButton({
-   Name = "Reset Style",
-   Callback = function()
-     game.Players.LocalPlayer.PlayerStats.Style.Value = "Default"
-   end,
-})
-
-local Tab = Window:CreateTab("Flow Maintenance", 4483362458) -- Title, Image
-
-local Button = Tab:CreateButton({
-   Name = "Note!!",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-   end,
-})
-
-local Button = Tab:CreateButton({
-   Name = "!Read This! To use Maintained Flow You Must Active the buttons bellows!",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-   end,
-})
-
-local Button = Tab:CreateButton({
-   Name = "Flow Activation Function",
-   Callback = function()
-     local function activateFlow(flowName)
-    game.Players.LocalPlayer.PlayerStats.Flow.Value = flowName
-    game.Players.LocalPlayer.PlayerStats.InFlow.Value = true
-         end
-   end,
-})
-
-Rayfield:Notify({
-   Title = "Flow Activation Function Has Been !ACTIVe!",
-   Content = "Successfully Applied By Gemini!",
-   Duration = 6.5,
-   Image = "badge-alert",
-})
-
--- Flow List
-local flows = {
-    "Prodigy",
-    "Awakened Genius",
-    "Dribbler",
-    "Snake",
-    "Ice",
-    "Soul Harvester",
-    "Wild Card"
-}
-
-for _, flow in ipairs(flows) do
-   local Button = Flow Maintenance:CreateButton({
-   Name = "Activated Flow",
-   Callback = function()
-     activateFlow(flow)
-   end,
-})
-
-local Section = Tab:CreateSection("Flow Management")
-
-local Toggle = Tab:CreateToggle({
-   Name = "Maintain Flow State",
-   CurrentValue = false,
-   Flag = "StateFlow", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+-- WalkSpeed Slider
+local SpeedSlider = Tab:CreateSlider({
+   Name = "WalkSpeed",
+   Range = {0, 150},
+   Increment = 1,
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Flag = "WalkSpeedSlider",
    Callback = function(Value)
-     game.Players.LocalPlayer.PlayerStats.inFlow.Value = value
+       game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
    end,
+})
+
+-- JumpPower Slider
+local JumpSlider = Tab:CreateSlider({
+   Name = "JumpPower",
+   Range = {1, 200},
+   Increment = 1,
+   Suffix = "Power",
+   CurrentValue = 50,
+   Flag = "JumpPowerSlider",
+   Callback = function(Value)
+       game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+   end,
+})
+
+local AntiAFKToggle = Tab:CreateToggle({
+   Name = "Anti-AFK",
+   CurrentValue = false,
+   Flag = "AntiAFKToggle",
+   Callback = function(Value)
+      if Value then
+         -- Continuously perform an action to avoid being idle
+         spawn(function()
+            while true do
+               -- Wait for idle event
+               game:GetService("Players").LocalPlayer.Idled:wait()
+               -- Simulate a click to prevent AFK
+               game:GetService("VirtualUser"):ClickButton1(Vector2.new(0, 0))
+            end
+         end)
+      end
+   end,
+})
+
+-- Anti-Ragdoll Toggle
+local AntiRagdollToggle = Tab:CreateToggle({
+   Name = "Anti-Ragdoll",
+   CurrentValue = false,
+   Flag = "AntiRagdollToggle",
+   Callback = function(Value)
+       local playerCharacter = game.Players.LocalPlayer.Character
+       if playerCharacter then
+           local humanoid = playerCharacter:FindFirstChild("Humanoid")
+           if humanoid then
+               humanoid:SetStateEnabled(Enum.HumanoidStateType.Physics, not Value)
+           end
+       end
+   end,
+})
+
+local Section2 = Tab:CreateSection("Usefull")
+
+local Button = Tab:CreateButton({
+    Name = "★FE-INVISIBLE",
+    Callback = function()
+        loadstring(game:HttpGet('https://pastebin.com/raw/3Rnd9rHf'))()
+    end,
 })
 
 local Button = Tab:CreateButton({
-   Name = "Reset Flow",
-   Callback = function()
-     game.Players.LocalPlayer.PlayerStats.Flow.Value = "None"
-        game.Players.LocalPlayer.PlayerStats.inFlow.Value = false
-   end,
-})
-
-local Tab = Window:CreateTab("Guide", 4483362458) -- Title, Image
-
-local Paragraph = Tab:CreateParagraph({Title = "Guidelines", Content = "shield-check"})
-
-local Button = Tab:CreateButton({
-   Name = "Guide!",
-   Callback = function()
-   --hanam
-   end,
+    Name = "Infinite Yield!",
+    Callback = function()
+      loadstring(game:HttpGet('https://raw.githubusercontent.com/DarkNetworks/Infinite-Yield/main/latest.lua'))()
+    end,
 })
 
 local Button = Tab:CreateButton({
-   Name = "Style won't working i got you/ firts you need reo for the style works!",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-   end,
+    Name = "★Wsil Universal Hub",
+    Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/wisl884/wisl-i-Universal-Project1/refs/heads/main/Wisl'i%20Universal%20Project%20Mobile.lua", true))()
+    end,
 })
 
 local Button = Tab:CreateButton({
-   Name = "For the flow its Fe but the skills its working you should have reo to!!",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-   end,
+    Name = "Inf Stamina",
+    Callback = function()
+      -- Infinite stamina script (hypothetical example)
+local player = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local staminaStat = char:FindFirstChild("Stamina")
+
+if staminaStat then
+    while true do
+        staminaStat.Value = math.huge -- Set stamina to an extremely high value
+        task.wait(0.1) -- Update every 0.1 seconds
+    end
+else
+    warn("Stamina stat not found!")
+         end
+    end,
 })
 
-local Button = Tab:CreateButton({
-   Name = "! CREDITS !",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-   end,
-})
 
-local Button = Tab:CreateButton({
-   Name = "•Faheem = Script, Lua Code, Owner. •Touka = Freind, main idea, Advanced Code, Gemini Ai! = Helper Situation Problematic.",
-   Callback = function()
-   -- The function that takes place when the button is pressed
-   end,
-})
+
+
+
+
 
