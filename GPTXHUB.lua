@@ -3,8 +3,8 @@ local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
 --// Create Window
 local Window = Rayfield:CreateWindow({
-    Name = "GPT ⚡ X Hub",
-    LoadingTitle = "GPT ⚡ X Hub",
+    Name = "GPT X Hub",
+    LoadingTitle = "GPT X Hub",
     LoadingSubtitle = "Made specially for Faheem",
     ConfigurationSaving = {
         Enabled = true,
@@ -25,7 +25,7 @@ local RageTab = Window:CreateTab("Rage", 4483362458)
 local StyleTab = Window:CreateTab("Style Changer", 4483362458)
 
 --// MAIN TAB - LocalPlayer Section
-local LocalPlayerSection = MainTab:CreateSection("LocalPlayer")
+local LocalPlayerSection = MainTab:CreateSection("Player")
 
 LocalPlayerSection:CreateButton({
     Name = "No Cooldown Script",
