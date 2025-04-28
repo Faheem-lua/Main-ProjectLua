@@ -1,43 +1,73 @@
---// Faheem Simple Universal Aimbot GUI (Purple + Silent Aim + FOV Circle Rainbow)
+--// Faheem Advanced Universal Aimbot with Loader
 
 -- Services
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local StarterGui = game:GetService("StarterGui")
 local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
 
 local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 
--- GUI Setup
+-- Variables
+local AimbotEnabled = false
+local SilentAimEnabled = false
+local CurrentFOV = 70
+local Prediction = 0.13
+
+-- Rainbow Loader GUI
+local LoaderGui = Instance.new("ScreenGui", game.CoreGui)
+LoaderGui.Name = "FaheemLoaderGUI"
+
+local LoaderFrame = Instance.new("Frame", LoaderGui)
+LoaderFrame.Size = UDim2.new(0, 300, 0, 100)
+LoaderFrame.Position = UDim2.new(0.5, -150, 0.5, -50)
+LoaderFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+LoaderFrame.BorderSizePixel = 4
+LoaderFrame.Active = true
+LoaderFrame.Draggable = true
+
+local LoaderTitle = Instance.new("TextLabel", LoaderFrame)
+LoaderTitle.Size = UDim2.new(1, 0, 0, 50)
+LoaderTitle.Position = UDim2.new(0, 0, 0, 0)
+LoaderTitle.BackgroundTransparency = 1
+LoaderTitle.Text = "Loading Faheem Aimbot..."
+LoaderTitle.TextColor3 = Color3.fromRGB(0, 0, 0)
+LoaderTitle.Font = Enum.Font.GothamBold
+LoaderTitle.TextScaled = true
+
+local Rainbow = 0
+RunService.RenderStepped:Connect(function()
+    Rainbow = Rainbow + 1
+    if Rainbow >= 255 then Rainbow = 0 end
+    LoaderFrame.BackgroundColor3 = Color3.fromHSV(Rainbow/255, 1, 1)
+end)
+
+task.wait(4)
+LoaderGui:Destroy()
+
+-- Main GUI
 local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
-ScreenGui.Name = "AimbotGUI"
+ScreenGui.Name = "FaheemSimpleAimbotGUI"
 
 local MainFrame = Instance.new("Frame", ScreenGui)
-MainFrame.Size = UDim2.new(0, 300, 0, 280)
+MainFrame.Size = UDim2.new(0, 300, 0, 250)
 MainFrame.Position = UDim2.new(0, 20, 0, 100)
 MainFrame.BackgroundColor3 = Color3.fromRGB(128, 0, 128)
 MainFrame.BorderSizePixel = 4
 MainFrame.Active = true
 MainFrame.Draggable = true
 
--- Title
 local Title = Instance.new("TextLabel", MainFrame)
 Title.Size = UDim2.new(1, 0, 0, 30)
 Title.Position = UDim2.new(0, 0, 0, 0)
 Title.BackgroundColor3 = Color3.fromRGB(100, 0, 100)
-Title.Text = "Universal Aimbot"
+Title.Text = "Faheem Simple Aimbot"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.Font = Enum.Font.GothamBold
 Title.TextScaled = true
 
--- Variables
-local AimbotEnabled = false
-local SilentAimEnabled = false
-local CurrentFOV = 70
-local TargetPart = "Head"
-
--- Aimbot Toggle Button
 local ToggleButton = Instance.new("TextButton", MainFrame)
 ToggleButton.Size = UDim2.new(0.8, 0, 0, 40)
 ToggleButton.Position = UDim2.new(0.1, 0, 0.2, 0)
@@ -50,19 +80,29 @@ ToggleButton.BorderSizePixel = 2
 
 ToggleButton.MouseButton1Click:Connect(function()
     AimbotEnabled = not AimbotEnabled
-    if AimbotEnabled then
-        ToggleButton.Text = "Aimbot: ON"
-        ToggleButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-    else
-        ToggleButton.Text = "Aimbot: OFF"
-        ToggleButton.BackgroundColor3 = Color3.fromRGB(170, 0, 170)
-    end
+    ToggleButton.Text = AimbotEnabled and "Aimbot: ON" or "Aimbot: OFF"
+    ToggleButton.BackgroundColor3 = AimbotEnabled and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(170, 0, 170)
 end)
 
--- FOV Label and Button
+local SilentButton = Instance.new("TextButton", MainFrame)
+SilentButton.Size = UDim2.new(0.8, 0, 0, 40)
+SilentButton.Position = UDim2.new(0.1, 0, 0.4, 0)
+SilentButton.BackgroundColor3 = Color3.fromRGB(170, 0, 170)
+SilentButton.Text = "Silent Aim: OFF"
+SilentButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+SilentButton.Font = Enum.Font.GothamBold
+SilentButton.TextScaled = true
+SilentButton.BorderSizePixel = 2
+
+SilentButton.MouseButton1Click:Connect(function()
+    SilentAimEnabled = not SilentAimEnabled
+    SilentButton.Text = SilentAimEnabled and "Silent Aim: ON" or "Silent Aim: OFF"
+    SilentButton.BackgroundColor3 = SilentAimEnabled and Color3.fromRGB(0, 200, 0) or Color3.fromRGB(170, 0, 170)
+end)
+
 local FOVLabel = Instance.new("TextLabel", MainFrame)
 FOVLabel.Size = UDim2.new(0.8, 0, 0, 20)
-FOVLabel.Position = UDim2.new(0.1, 0, 0.4, 0)
+FOVLabel.Position = UDim2.new(0.1, 0, 0.63, 0)
 FOVLabel.BackgroundTransparency = 1
 FOVLabel.Text = "FOV: 70"
 FOVLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -71,9 +111,9 @@ FOVLabel.TextScaled = true
 
 local FOVButton = Instance.new("TextButton", MainFrame)
 FOVButton.Size = UDim2.new(0.8, 0, 0, 30)
-FOVButton.Position = UDim2.new(0.1, 0, 0.5, 0)
+FOVButton.Position = UDim2.new(0.1, 0, 0.76, 0)
 FOVButton.BackgroundColor3 = Color3.fromRGB(170, 0, 170)
-FOVButton.Text = "Click to Change FOV"
+FOVButton.Text = "Change FOV"
 FOVButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 FOVButton.Font = Enum.Font.GothamBold
 FOVButton.TextScaled = true
@@ -93,29 +133,6 @@ FOVButton.MouseButton1Click:Connect(function()
     FOVLabel.Text = "FOV: "..CurrentFOV
 end)
 
--- Silent Aim Toggle Button
-local SilentAimButton = Instance.new("TextButton", MainFrame)
-SilentAimButton.Size = UDim2.new(0.8, 0, 0, 30)
-SilentAimButton.Position = UDim2.new(0.1, 0, 0.7, 0)
-SilentAimButton.BackgroundColor3 = Color3.fromRGB(170, 0, 170)
-SilentAimButton.Text = "Silent Aim: OFF"
-SilentAimButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-SilentAimButton.Font = Enum.Font.GothamBold
-SilentAimButton.TextScaled = true
-SilentAimButton.BorderSizePixel = 2
-
-SilentAimButton.MouseButton1Click:Connect(function()
-    SilentAimEnabled = not SilentAimEnabled
-    if SilentAimEnabled then
-        SilentAimButton.Text = "Silent Aim: ON"
-        SilentAimButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-    else
-        SilentAimButton.Text = "Silent Aim: OFF"
-        SilentAimButton.BackgroundColor3 = Color3.fromRGB(170, 0, 170)
-    end
-end)
-
--- Credits Label
 local Credits = Instance.new("TextLabel", MainFrame)
 Credits.Size = UDim2.new(1, -10, 0, 25)
 Credits.Position = UDim2.new(0, 5, 1, -30)
@@ -125,41 +142,30 @@ Credits.TextColor3 = Color3.fromRGB(200, 200, 200)
 Credits.Font = Enum.Font.Gotham
 Credits.TextScaled = true
 
--- Notifications
 StarterGui:SetCore("SendNotification", {
-    Title = "Nofications",
-    Text = "This Scirpt Made By Faheem",
+    Title = "Faheem Aimbot",
+    Text = "Made by Faheem",
     Duration = 5
 })
 
 task.wait(1)
 
 StarterGui:SetCore("SendNotification", {
-    Title = "Bot Aimbot",
+    Title = "Faheem Aimbot",
     Text = "More updates soon!",
     Duration = 5
 })
 
--- FOV Circle Drawing
-local DrawingFOV = Drawing.new("Circle")
-DrawingFOV.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
-DrawingFOV.Radius = CurrentFOV
-DrawingFOV.Visible = true
-DrawingFOV.Color = Color3.fromRGB(255, 0, 0)
-DrawingFOV.Transparency = 0.5
-DrawingFOV.Thickness = 2
-DrawingFOV.Filled = false
-
--- Get Closest Player Function
+-- Aimbot Core
 local function GetClosestPlayer()
     local closestPlayer = nil
     local shortestDistance = math.huge
-    for i, v in pairs(Players:GetPlayers()) do
-        if v ~= LocalPlayer and v.Character and v.Character:FindFirstChild(TargetPart) and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health > 0 then
-            local pos, visible = Camera:WorldToViewportPoint(v.Character[TargetPart].Position)
+    for _, v in pairs(Players:GetPlayers()) do
+        if v ~= LocalPlayer and v.Character and v.Character:FindFirstChild("Head") and v.Character:FindFirstChild("Humanoid") and v.Character.Humanoid.Health > 0 then
+            local pos, visible = Camera:WorldToViewportPoint(v.Character.Head.Position)
             if visible then
                 local distance = (Vector2.new(pos.X, pos.Y) - UserInputService:GetMouseLocation()).Magnitude
-                if distance < shortestDistance and distance < CurrentFOV then
+                if distance < shortestDistance and distance <= CurrentFOV then
                     shortestDistance = distance
                     closestPlayer = v
                 end
@@ -169,45 +175,36 @@ local function GetClosestPlayer()
     return closestPlayer
 end
 
--- RunService Loop
-RunService.RenderStepped:Connect(function()
-    -- Update FOV Circle
-    DrawingFOV.Position = Vector2.new(Camera.ViewportSize.X / 2, Camera.ViewportSize.Y / 2)
-    DrawingFOV.Radius = CurrentFOV
-    DrawingFOV.Visible = AimbotEnabled
-
-    -- Rainbow Color
-    local hue = tick() % 5 / 5
-    DrawingFOV.Color = Color3.fromHSV(hue, 1, 1)
-
-    -- Normal Aimbot
-    if AimbotEnabled and not SilentAimEnabled then
+-- Silent Aim Hook
+local __index
+__index = hookmetamethod(game, "__index", function(self, key)
+    if SilentAimEnabled and not checkcaller() and key == "Hit" then
         local target = GetClosestPlayer()
-        if target and target.Character and target.Character:FindFirstChild(TargetPart) then
-            Camera.CFrame = CFrame.new(Camera.CFrame.Position, target.Character[TargetPart].Position)
+        if target and target.Character and target.Character:FindFirstChild("Head") then
+            local pred = target.Character.Head.Velocity * Prediction
+            return (target.Character.Head.Position + pred)
         end
     end
+    return __index(self, key)
 end)
 
--- Silent Aim Advanced (Prediction)
-local oldNamecall
-oldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
-    local args = {...}
-    local method = getnamecallmethod()
+-- FOV Circle
+local FOVCircle = Drawing.new("Circle")
+FOVCircle.Color = Color3.fromHSV(0, 1, 1)
+FOVCircle.Thickness = 2
+FOVCircle.Radius = CurrentFOV
+FOVCircle.Filled = false
+FOVCircle.Transparency = 1
 
-    if SilentAimEnabled and AimbotEnabled and method == "FindPartOnRayWithIgnoreList" then
+RunService.RenderStepped:Connect(function()
+    FOVCircle.Position = UserInputService:GetMouseLocation()
+    FOVCircle.Radius = CurrentFOV
+    FOVCircle.Color = Color3.fromHSV(tick()%5/5, 1, 1)
+
+    if AimbotEnabled then
         local target = GetClosestPlayer()
-        if target and target.Character and target.Character:FindFirstChild(TargetPart) then
-            local part = target.Character[TargetPart]
-            local partVelocity = part.Velocity or Vector3.zero
-
-            local PredictionMultiplier = 0.165
-
-            local predictedPosition = part.Position + (partVelocity * PredictionMultiplier)
-            args[1] = Ray.new(Camera.CFrame.Position, (predictedPosition - Camera.CFrame.Position).Unit * 1000)
-            return oldNamecall(self, unpack(args))
+        if target and target.Character and target.Character:FindFirstChild("Head") then
+            Camera.CFrame = CFrame.new(Camera.CFrame.Position, target.Character.Head.Position)
         end
     end
-
-    return oldNamecall(self, ...)
 end)
