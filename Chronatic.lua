@@ -1,39 +1,35 @@
---// Chronotic Dark Pro Hub | Simple Fluent UI | Section 1 Only
+local redzlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/REDzHUB/LibraryV2/main/redzLib"))()
 
-local Fluent = loadstring(game:HttpGet("https://github.com/REDzHUB/FluentUI/raw/main/Source.lua"))()
-
-local Window = Fluent:CreateWindow({
-    Title = "Chronotic Dark Pro",
+local Window = redzlib:MakeWindow({
+    Title = "Chronotic Dark Pro Hub",
     SubTitle = "by Faheem",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 400),
-    Acrylic = true,
-    Theme = "Dark"
+    Color = Color3.fromRGB(128, 0, 128),
+    Background = Color3.fromRGB(0, 0, 0),
+    ToggleKey = Enum.KeyCode.RightControl
 })
 
 local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
 local LocalPlayer = Players.LocalPlayer
 
-local StyleTab = Window:AddTab({ Name = "Style" })
-
--- Variables
-local styleName = ""
-
---// Section 1: Style Controls
-local StyleSection = StyleTab:AddSection("Style Controls")
-
-StyleSection:AddTextbox({
-    Name = "Enter Style Name",
-    Default = "",
-    Placeholder = "Example: Kaiser, Rin, Kurona",
-    Callback = function(Text)
-        styleName = Text
-    end,
+local StyleTab = Window:MakeTab({
+    Name = "Style",
+    Icon = "rbxassetid://7734053494",
+    Color = Color3.fromRGB(128, 0, 128)
 })
 
-StyleSection:AddButton({
-    Name = "Apply Custom Style",
+local styleName = ""
+
+StyleTab:CreateTextbox({
+    Title = "Enter Style Name",
+    Placeholder = "Example: Kaiser, Rin, Kurona",
+    Callback = function(text)
+        styleName = text
+    end
+})
+
+StyleTab:CreateButton({
+    Title = "Apply Custom Style",
     Callback = function()
         local stats = LocalPlayer:FindFirstChild("PlayerStats")
         if stats and stats:FindFirstChild("Style") then
@@ -41,14 +37,14 @@ StyleSection:AddButton({
         end
         StarterGui:SetCore("SendNotification", {
             Title = "★Service Chronotic Ai",
-            Text = "Style Applied Successfully!",
+            Text = "Successfully, Style has been Applied by Chronotic Service System",
             Duration = 5
         })
-    end,
+    end
 })
 
-StyleSection:AddButton({
-    Name = "Set Style: NEL Bachira",
+StyleTab:CreateButton({
+    Title = "Set Style: NEL Bachira",
     Callback = function()
         local stats = LocalPlayer:FindFirstChild("PlayerStats")
         if stats and stats:FindFirstChild("Style") then
@@ -56,14 +52,14 @@ StyleSection:AddButton({
         end
         StarterGui:SetCore("SendNotification", {
             Title = "★Service Chronotic Ai",
-            Text = "Set Style to NEL Bachira Successfully!",
+            Text = "Successfully, Style has been Applied by Chronotic Service System",
             Duration = 5
         })
-    end,
+    end
 })
 
-StyleSection:AddButton({
-    Name = "Set Style: NEL Isagi",
+StyleTab:CreateButton({
+    Title = "Set Style: NEL Isagi",
     Callback = function()
         local stats = LocalPlayer:FindFirstChild("PlayerStats")
         if stats and stats:FindFirstChild("Style") then
@@ -71,14 +67,13 @@ StyleSection:AddButton({
         end
         StarterGui:SetCore("SendNotification", {
             Title = "★Service Chronotic Ai",
-            Text = "Set Style to NEL Isagi Successfully!",
+            Text = "Successfully, Style has been Applied by Chronotic Service System",
             Duration = 5
         })
-    end,
+    end
 })
 
--- Final: Note
-StyleTab:AddParagraph({
-    Title = "Note:",
-    Content = "For the style working please have Reo style!"
+StyleTab:CreateParagraph({
+    Title = "Important Note:",
+    Content = "To properly use the styles and abilities, you must have Reo as your current style."
 })
