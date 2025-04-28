@@ -1,13 +1,13 @@
---// Chronatic Dark Pro Hub | Rayfield V4 Sirius | Anti Ragdoll + Anti Ankle Break + WalkSpeed + Control Ball + Full Hub
+--// Chronatic Dark Pro Hub | Rayfield V4 Sirius | No KeySystem | Full Hub Ready
 
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "★Chronatic Dark Pro Hub | Blue Lock: Rivals★",
+   Name = "Chronatic Dark Pro Hub | Blue Lock: Rivals",
    Icon = "Gem",
    LoadingTitle = "Chronatic Hub Loading...",
-   LoadingSubtitle = "+Made by Faheem+",
-   Theme = "Amethyst",
+   LoadingSubtitle = "Made by Faheem",
+   Theme = "Default",
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false,
 
@@ -23,16 +23,7 @@ local Window = Rayfield:CreateWindow({
       RememberJoins = true
    },
 
-   KeySystem = false,
-   KeySettings = {
-      Title = "Chronatic Service Authentication",
-      Subtitle = "Authentication Private+",
-      Note = "Allowed Keys: Chrollo, Faheem, OpHub",
-      FileName = "ChronaticKeySave",
-      SaveKey = true,
-      GrabKeyFromSite = false,
-      AcceptedKeys = {"Chrollo", "Faheem", "OpHub"}
-   }
+   KeySystem = false -- Now fully no Key System!
 })
 
 local Players = game:GetService("Players")
@@ -150,7 +141,7 @@ local FunSection = FunTab:CreateSection("Fun")
 local UsefulFeaturesSection = FunTab:CreateSection("Useful Features")
 local Opv2Section = FunTab:CreateSection("Opv2")
 
--- Infinite Flow
+-- Infinite Flow Toggle
 local InfiniteFlowEnabled = false
 
 LocalPlayerSection:CreateToggle({
@@ -300,7 +291,7 @@ UsefulFeaturesSection:CreateButton({
 	end,
 })
 
--- Opv2 Section
+-- Opv2 Section (Control Ball Button)
 Opv2Section:CreateButton({
 	Name = "Control Ball (Faheem)",
 	Callback = function()
