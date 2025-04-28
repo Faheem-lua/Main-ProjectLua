@@ -1,45 +1,35 @@
---// Load Rayfield UI Library
-local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+--// GPT X HUB - By ChatGPT (For Faheem!)
 
---// Create Window
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
 local Window = Rayfield:CreateWindow({
-    Name = "GPT X Hub",
-    LoadingTitle = "GPT X Hub",
-    LoadingSubtitle = "Made specially for Faheem",
+    Name = "GPT X HUB",
+    LoadingTitle = "GPT X HUB Loading...",
+    LoadingSubtitle = "Made for Faheem by ChatGPT",
     ConfigurationSaving = {
         Enabled = true,
-        FolderName = "GPTXHub",
-        FileName = "FaheemConfig"
-    },
-    Discord = {
-        Enabled = false,
+        FolderName = "GPTXHUB",
+        FileName = "GPTXHUBConfig"
     },
     KeySystem = false,
 })
 
---// Tabs
 local MainTab = Window:CreateTab("Main™", 4483362458)
 local MiscTab = Window:CreateTab("Misc", 4483362458)
 local FunTab = Window:CreateTab("Fun", 4483362458)
 local RageTab = Window:CreateTab("Rage", 4483362458)
-local StyleTab = Window:CreateTab("Style Changer", 4483362458)
+local StyleChangerTab = Window:CreateTab("Style Changer", 4483362458)
 
---// MAIN TAB - LocalPlayer Section
-local LocalPlayerSection = MainTab:CreateSection("Player")
+local LocalPlayerSection = MainTab:CreateSection("PlayerSet")
 
 LocalPlayerSection:CreateButton({
-    Name = "No Cooldown Script",
+    Name = "No Cooldown",
     Callback = function()
-        local C = require(game:GetService("ReplicatedStorage").Controllers.AbilityController)
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        local C = require(ReplicatedStorage:WaitForChild("Controllers"):WaitForChild("AbilityController"))
         local o = C.AbilityCooldown
         C.AbilityCooldown = function(s, n, ...) return o(s, n, 0, ...) end
-        Rayfield:Notify({
-            Title = "NoCooldown Enabled",
-            Content = "Cooldowns are now removed!",
-            Duration = 5,
-            Image = 4483362458,
-            Actions = { Ignore = { Name = "Okay", Callback = function() end } }
-        })
+        Rayfield:Notify({Title = "No Cooldown", Content = "No Cooldown Activated!", Duration = 5})
     end,
 })
 
@@ -48,94 +38,101 @@ LocalPlayerSection:CreateButton({
     Callback = function()
         local Players = game:GetService("Players")
         local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        local StarterGui = game:GetService("StarterGui")
         local LocalPlayer = Players.LocalPlayer
         local AbilityController = require(ReplicatedStorage:WaitForChild("Controllers"):WaitForChild("AbilityController"))
-        
-        Rayfield:Notify({
+
+        StarterGui:SetCore("SendNotification", {
             Title = "InfAwakening",
-            Content = "Infinite Awakening Activated!",
-            Duration = 5,
-            Image = 4483362458,
-            Actions = { Ignore = { Name = "Okay", Callback = function() end } }
+            Text = "Only works for Kaiser, King, Kurona!",
+            Duration = 7
         })
 
-        spawn(function()
+        task.spawn(function()
             while task.wait(1) do
-                LocalPlayer.PlayerStats.InAwakening.Value = true
-                AbilityController:UseAbility("Awakening")
+                if LocalPlayer and LocalPlayer:FindFirstChild("PlayerStats") and LocalPlayer.PlayerStats:FindFirstChild("InAwakening") then
+                    LocalPlayer.PlayerStats.InAwakening.Value = true
+                    AbilityController:UseAbility("Awakening")
+                end
             end
         end)
     end,
 })
 
---// MISC TAB
-local MiscSection = MiscTab:CreateSection("Utilities")
+local MiscSection = MiscTab:CreateSection("Misc Player")
 
 MiscSection:CreateButton({
     Name = "Noclip",
     Callback = function()
-        local plr = game.Players.LocalPlayer
-        local char = plr.Character or plr.CharacterAdded:Wait()
-        game:GetService("RunService").Stepped:Connect(function()
-            for _, part in ipairs(char:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    part.CanCollide = false
+        game:GetService('RunService').Stepped:Connect(function()
+            local character = game.Players.LocalPlayer.Character
+            if character then
+                for _, v in pairs(character:GetDescendants()) do
+                    if v:IsA("BasePart") then
+                        v.CanCollide = false
+                    end
                 end
             end
         end)
-        Rayfield:Notify({
-            Title = "Noclip Enabled",
-            Content = "You can walk through everything!",
-            Duration = 5,
-        })
     end,
 })
 
 MiscSection:CreateButton({
     Name = "Anti Ragdoll",
     Callback = function()
-        for _,v in ipairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-            if v:IsA("Constraint") then
-                v:Destroy()
-            end
+        local player = game.Players.LocalPlayer
+        if player and player.Character and player.Character:FindFirstChild("RagdollRemote") then
+            player.Character.RagdollRemote:Destroy()
         end
-        Rayfield:Notify({
-            Title = "Anti-Ragdoll",
-            Content = "No ragdoll effects anymore!",
-            Duration = 5,
-        })
     end,
 })
 
---// FUN TAB
-local FunSection = FunTab:CreateSection("Fun Stuff")
+MiscSection:CreateButton({
+    Name = "Anti Breaker",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        if player and player.Character and player.Character:FindFirstChild("Breaker") then
+            player.Character.Breaker:Destroy()
+        end
+    end,
+})
+
+local FunSection = FunTab:CreateSection("Fun Features")
 
 FunSection:CreateButton({
-    Name = "Give Ball (Force Pickup)",
+    Name = "Force Give Ball",
     Callback = function()
-        local args = {
-            [1] = workspace.Balls:FindFirstChildOfClass("Part")
-        }
-        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("GetBall"):FireServer(unpack(args))
-        Rayfield:Notify({
-            Title = "Ball Grabbed!",
-            Content = "Ball is now with you!",
-            Duration = 5,
-        })
+        local ball = workspace:FindFirstChild("Ball")
+        if ball and ball:FindFirstChildOfClass("ProximityPrompt") then
+            fireproximityprompt(ball:FindFirstChildOfClass("ProximityPrompt"))
+        end
     end,
 })
 
---// RAGE TAB - (Coming soon)
+local RageSection = RageTab:CreateSection("Rage Features")
 
---// STYLE CHANGER TAB
-local StyleChangerSection = StyleTab:CreateSection("Change Your Style")
+RageSection:CreateSlider({
+    Name = "Speed Hack",
+    Range = {16, 150},
+    Increment = 1,
+    Default = 16,
+    Callback = function(value)
+        local character = game.Players.LocalPlayer.Character
+        if character and character:FindFirstChildOfClass("Humanoid") then
+            character:FindFirstChildOfClass("Humanoid").WalkSpeed = value
+        end
+    end,
+})
 
-StyleChangerSection:CreateDropdown({
+local StyleSection = StyleChangerTab:CreateSection("Change Style")
+
+StyleSection:CreateDropdown({
     Name = "Choose Style",
     Options = {
         "NEL Isagi: Direct Shot",
         "NEL Bachira: Monster",
         "Kunigami: Power Shot",
+        "Chigiri: Speedster",
         "Nagi: Genius Trapper",
         "Baro: King",
         "Rin: Calculated Precision",
@@ -144,26 +141,9 @@ StyleChangerSection:CreateDropdown({
         "Lorenzo: Shadow Defense",
         "Shidou: Wild Card",
     },
-    CurrentOption = "NEL Isagi: Direct Shot",
-    Callback = function(StyleChosen)
-        local Players = game:GetService("Players")
-        local LocalPlayer = Players.LocalPlayer
-        if LocalPlayer:FindFirstChild("PlayerStats") then
-            LocalPlayer.PlayerStats.Style.Value = StyleChosen
-            Rayfield:Notify({
-                Title = "Style Changed!",
-                Content = "Now using: " .. StyleChosen,
-                Duration = 5,
-            })
-        end
+    Callback = function(style)
+        Rayfield:Notify({Title = "Style Changer", Content = "Selected: " .. style, Duration = 5})
     end,
 })
 
---// Final Notification
-Rayfield:Notify({
-    Title = "GPT ⚡ X Hub",
-    Content = "Successfully Loaded! Enjoy Faheem bhai!",
-    Duration = 7,
-    Image = 4483362458,
-    Actions = { Ignore = { Name = "Thanks", Callback = function() end } }
-})
+-- End of GPT X HUB
