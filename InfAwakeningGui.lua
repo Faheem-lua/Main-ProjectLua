@@ -1,5 +1,5 @@
 --// InfAwakening GUI - Made by 101jackniku and Faheem
-
+-- 101jackniku if you want it credits Edit the script
 -- Services
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
