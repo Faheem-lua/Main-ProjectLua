@@ -23,7 +23,7 @@ local Window = Rayfield:CreateWindow({
       RememberJoins = true
    },
 
-   KeySystem = true,
+   KeySystem = false,
    KeySettings = {
       Title = "Chronatic Service Authentication",
       Subtitle = "Authentication Private+",
