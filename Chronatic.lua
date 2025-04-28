@@ -1,38 +1,42 @@
---// Chronatic MS Paint Hub | FINAL EXTENDED VERSION | By Faheem | ★Service Chronotic Ai
+--// Chronotic Dark Pro Hub | Fluent UI | King Faheem Special
 
-local MSPaint = loadstring(game:HttpGet('https://raw.githubusercontent.com/REDzHUB/MSPaintUI/main/MSPaintSource.lua'))()
+local Fluent = loadstring(game:HttpGet("https://github.com/REDzHUB/FluentUI/raw/main/Source.lua"))()
 
-local Window = MSPaint:CreateWindow({
-   Title = "Chronatic MS Paint Hub | Blue Lock: Rivals",
-   Theme = "MSPaint", -- Cartoon colorful
+local Window = Fluent:CreateWindow({
+    Title = "Chronotic Dark Pro",
+    SubTitle = "by Faheem",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 400),
+    Acrylic = true,
+    Theme = "Dark"
 })
 
 local Players = game:GetService("Players")
 local StarterGui = game:GetService("StarterGui")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
 
-local StyleTab = Window:CreateTab("Style")
+local StyleTab = Window:AddTab({ Name = "Style" })
 
 -- Variables
 local styleName = ""
 
 --// Section 1: Style Controls
-local StyleSection = StyleTab:CreateSection("Style Controls")
+local StyleSection = StyleTab:AddSection("Style Controls")
 
-StyleSection:CreateInput({
+StyleSection:AddTextbox({
     Name = "Enter Style Name",
-    PlaceholderText = "Example: Kaiser, Rin, Kurona",
-    RemoveTextAfterFocusLost = false,
+    Default = "",
+    Placeholder = "Example: Kaiser, Rin, Kurona",
     Callback = function(Text)
         styleName = Text
     end,
 })
 
-StyleSection:CreateButton({
+StyleSection:AddButton({
     Name = "Apply Custom Style",
     Callback = function()
-        local player = Players.LocalPlayer
-        local stats = player:FindFirstChild("PlayerStats")
+        local stats = LocalPlayer:FindFirstChild("PlayerStats")
         if stats and stats:FindFirstChild("Style") then
             stats.Style.Value = styleName
         end
@@ -44,11 +48,10 @@ StyleSection:CreateButton({
     end,
 })
 
-StyleSection:CreateButton({
+StyleSection:AddButton({
     Name = "Set Style: NEL Bachira",
     Callback = function()
-        local player = Players.LocalPlayer
-        local stats = player:FindFirstChild("PlayerStats")
+        local stats = LocalPlayer:FindFirstChild("PlayerStats")
         if stats and stats:FindFirstChild("Style") then
             stats.Style.Value = "NEL Bachira"
         end
@@ -60,11 +63,10 @@ StyleSection:CreateButton({
     end,
 })
 
-StyleSection:CreateButton({
+StyleSection:AddButton({
     Name = "Set Style: NEL Isagi",
     Callback = function()
-        local player = Players.LocalPlayer
-        local stats = player:FindFirstChild("PlayerStats")
+        local stats = LocalPlayer:FindFirstChild("PlayerStats")
         if stats and stats:FindFirstChild("Style") then
             stats.Style.Value = "NEL Isagi"
         end
@@ -77,30 +79,27 @@ StyleSection:CreateButton({
 })
 
 --// Section 2: Player Settings
-local PlayerSection = StyleTab:CreateSection("Player Settings")
+local PlayerSection = StyleTab:AddSection("Player Settings")
 
-PlayerSection:CreateSlider({
+PlayerSection:AddSlider({
     Name = "WalkSpeed",
-    Range = {10,150},
-    Increment = 1,
-    Suffix = "Speed",
-    CurrentValue = 16,
+    Min = 10,
+    Max = 150,
+    Default = 16,
     Callback = function(Value)
-        local player = Players.LocalPlayer
-        if player.Character and player.Character:FindFirstChild("Humanoid") then
-            player.Character.Humanoid.WalkSpeed = Value
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+            LocalPlayer.Character.Humanoid.WalkSpeed = Value
         end
     end,
 })
 
-PlayerSection:CreateButton({
+PlayerSection:AddButton({
     Name = "Anti Ragdoll",
     Callback = function()
-        local player = Players.LocalPlayer
-        if player.Character and player.Character:FindFirstChild("Ragdolled") then
-            player.Character.Ragdolled:Destroy()
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Ragdolled") then
+            LocalPlayer.Character.Ragdolled:Destroy()
         end
-        player.CharacterAdded:Connect(function(character)
+        LocalPlayer.CharacterAdded:Connect(function(character)
             task.wait(0.5)
             local rag = character:FindFirstChild("Ragdolled")
             if rag then
@@ -115,12 +114,11 @@ PlayerSection:CreateButton({
     end,
 })
 
-PlayerSection:CreateButton({
+PlayerSection:AddButton({
     Name = "Anti Breaker",
     Callback = function()
-        local player = Players.LocalPlayer
-        if player.Character and player.Character:FindFirstChild("Breaker") then
-            player.Character.Breaker:Destroy()
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Breaker") then
+            LocalPlayer.Character.Breaker:Destroy()
         end
         StarterGui:SetCore("SendNotification", {
             Title = "★Service Chronotic Ai",
@@ -132,18 +130,17 @@ PlayerSection:CreateButton({
 
 local InfiniteFlowEnabled = false
 
-PlayerSection:CreateToggle({
+PlayerSection:AddToggle({
     Name = "Infinite Flow",
-    CurrentValue = false,
+    Default = false,
     Callback = function(Value)
         InfiniteFlowEnabled = Value
         if InfiniteFlowEnabled then
             spawn(function()
                 while InfiniteFlowEnabled do
                     task.wait(1)
-                    local player = Players.LocalPlayer
-                    if player and player:FindFirstChild("PlayerStats") then
-                        player.PlayerStats.InFlow.Value = true
+                    if LocalPlayer and LocalPlayer:FindFirstChild("PlayerStats") then
+                        LocalPlayer.PlayerStats.InFlow.Value = true
                     end
                 end
             end)
@@ -157,62 +154,55 @@ PlayerSection:CreateToggle({
 })
 
 --// Section 3: Recommend
-local RecommendSection = StyleTab:CreateSection("Recommend")
+local RecommendSection = StyleTab:AddSection("Recommend")
 
-local NoCooldownEnabled = false
-RecommendSection:CreateToggle({
+RecommendSection:AddToggle({
     Name = "No Cooldown Ability",
-    CurrentValue = false,
+    Default = false,
     Callback = function(Value)
-        NoCooldownEnabled = Value
-        if NoCooldownEnabled then
+        if Value then
             local C = require(ReplicatedStorage.Controllers.AbilityController)
             local o = C.AbilityCooldown
             C.AbilityCooldown = function(s, n, ...) return o(s, n, 0, ...) end
         end
         StarterGui:SetCore("SendNotification", {
             Title = "★Service Chronotic Ai",
-            Text = NoCooldownEnabled and "No Cooldown Enabled!" or "No Cooldown Disabled!",
+            Text = Value and "No Cooldown Enabled!" or "No Cooldown Disabled!",
             Duration = 5
         })
     end,
 })
 
-local InfiniteAwakeningEnabled = false
-RecommendSection:CreateToggle({
+RecommendSection:AddToggle({
     Name = "Infinite Awakening",
-    CurrentValue = false,
+    Default = false,
     Callback = function(Value)
-        InfiniteAwakeningEnabled = Value
-        if InfiniteAwakeningEnabled then
+        if Value then
             spawn(function()
-                while InfiniteAwakeningEnabled do
+                while Value do
                     task.wait(1)
-                    local player = Players.LocalPlayer
                     local AbilityController = require(ReplicatedStorage:WaitForChild("Controllers"):WaitForChild("AbilityController"))
-                    player.PlayerStats.InAwakening.Value = true
+                    LocalPlayer.PlayerStats.InAwakening.Value = true
                     AbilityController:UseAbility("Awakening")
                 end
             end)
         end
         StarterGui:SetCore("SendNotification", {
             Title = "★Service Chronotic Ai",
-            Text = InfiniteAwakeningEnabled and "Infinite Awakening Enabled!" or "Infinite Awakening Disabled!",
+            Text = Value and "Infinite Awakening Enabled!" or "Infinite Awakening Disabled!",
             Duration = 5
         })
     end,
 })
 
 --// Section 4: Protection
-local ProtectionSection = StyleTab:CreateSection("Protection")
+local ProtectionSection = StyleTab:AddSection("Protection")
 
-local AntiKickEnabled = false
-ProtectionSection:CreateToggle({
+ProtectionSection:AddToggle({
     Name = "Anti Kick (Op Power)",
-    CurrentValue = false,
+    Default = false,
     Callback = function(Value)
-        AntiKickEnabled = Value
-        if AntiKickEnabled then
+        if Value then
             local mt = getrawmetatable(game)
             setreadonly(mt, false)
             local old = mt.__namecall
@@ -226,24 +216,21 @@ ProtectionSection:CreateToggle({
         end
         StarterGui:SetCore("SendNotification", {
             Title = "★Service Chronotic Ai",
-            Text = AntiKickEnabled and "Anti Kick Enabled!" or "Anti Kick Disabled!",
+            Text = Value and "Anti Kick Enabled!" or "Anti Kick Disabled!",
             Duration = 5
         })
     end,
 })
 
-local AntiBanEnabled = false
-ProtectionSection:CreateToggle({
+ProtectionSection:AddToggle({
     Name = "Anti Ban (Op Power)",
-    CurrentValue = false,
+    Default = false,
     Callback = function(Value)
-        AntiBanEnabled = Value
-        if AntiBanEnabled then
+        if Value then
             spawn(function()
-                while AntiBanEnabled do
-                    local player = Players.LocalPlayer
-                    if player and player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
-                        player.Character:FindFirstChildOfClass("Humanoid").BreakJointsOnDeath = false
+                while Value do
+                    if LocalPlayer and LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+                        LocalPlayer.Character:FindFirstChildOfClass("Humanoid").BreakJointsOnDeath = false
                     end
                     task.wait(1)
                 end
@@ -251,14 +238,14 @@ ProtectionSection:CreateToggle({
         end
         StarterGui:SetCore("SendNotification", {
             Title = "★Service Chronotic Ai",
-            Text = AntiBanEnabled and "Anti Ban Enabled!" or "Anti Ban Disabled!",
+            Text = Value and "Anti Ban Enabled!" or "Anti Ban Disabled!",
             Duration = 5
         })
     end,
 })
 
---// Final: Important Reo Note
-StyleTab:CreateParagraph({
+-- Final Note about Reo
+StyleTab:AddParagraph({
     Title = "Note:",
     Content = "For the style working please have Reo style!"
 })
