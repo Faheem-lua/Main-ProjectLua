@@ -1,305 +1,264 @@
---// Chronatic Dark Pro Hub | Rayfield V4 Sirius | No KeySystem | Full Hub Ready
+--// Chronatic MS Paint Hub | FINAL EXTENDED VERSION | By Faheem | ★Service Chronotic Ai
 
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local MSPaint = loadstring(game:HttpGet('https://raw.githubusercontent.com/REDzHUB/MSPaintUI/main/MSPaintSource.lua'))()
 
-local Window = Rayfield:CreateWindow({
-   Name = "Chronatic Dark Pro Hub | Blue Lock: Rivals",
-   Icon = "Gem",
-   LoadingTitle = "Chronatic Hub Loading...",
-   LoadingSubtitle = "Made by Faheem",
-   Theme = "Default",
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false,
-
-   ConfigurationSaving = {
-      Enabled = true,
-      FolderName = "ChronaticHub",
-      FileName = "ChronaticDarkPro"
-   },
-
-   Discord = {
-      Enabled = false,
-      Invite = "noinvitelink",
-      RememberJoins = true
-   },
-
-   KeySystem = false -- Now fully no Key System!
+local Window = MSPaint:CreateWindow({
+   Title = "Chronatic MS Paint Hub | Blue Lock: Rivals",
+   Theme = "MSPaint", -- Cartoon colorful
 })
 
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local StarterGui = game:GetService("StarterGui")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
--- Tabs
-local PlayerTab = Window:CreateTab("Player", 4483362458)
-local FunTab = Window:CreateTab("Fun", 4483362458)
+local StyleTab = Window:CreateTab("Style")
 
--- Sections inside Player Tab
-local StyleManagerSection = PlayerTab:CreateSection("Style Manager")
-local TrollSection = PlayerTab:CreateSection("Troll")
-
+-- Variables
 local styleName = ""
 
-StyleManagerSection:CreateInput({
-	Name = "Enter Style Name",
-	PlaceholderText = "Example: Kaiser, King, Kurona",
-	RemoveTextAfterFocusLost = false,
-	Callback = function(Text)
-		styleName = Text
-	end,
+--// Section 1: Style Controls
+local StyleSection = StyleTab:CreateSection("Style Controls")
+
+StyleSection:CreateInput({
+    Name = "Enter Style Name",
+    PlaceholderText = "Example: Kaiser, Rin, Kurona",
+    RemoveTextAfterFocusLost = false,
+    Callback = function(Text)
+        styleName = Text
+    end,
 })
 
-StyleManagerSection:CreateButton({
-	Name = "Apply Style",
-	Callback = function()
-		local player = Players.LocalPlayer
-		local stats = player:FindFirstChild("PlayerStats")
-		if stats and stats:FindFirstChild("Style") then
-			stats.Style.Value = styleName
-		end
-		StarterGui:SetCore("SendNotification", {
-			Title = "Chronatic Hub",
-			Text = "Successfully Applied by Faheem!",
-			Duration = 5
-		})
-	end,
+StyleSection:CreateButton({
+    Name = "Apply Custom Style",
+    Callback = function()
+        local player = Players.LocalPlayer
+        local stats = player:FindFirstChild("PlayerStats")
+        if stats and stats:FindFirstChild("Style") then
+            stats.Style.Value = styleName
+        end
+        StarterGui:SetCore("SendNotification", {
+            Title = "★Service Chronotic Ai",
+            Text = "Style Applied Successfully!",
+            Duration = 5
+        })
+    end,
 })
 
-StyleManagerSection:CreateButton({
-	Name = "Set Style: NEL Bachira",
-	Callback = function()
-		local player = Players.LocalPlayer
-		local stats = player:FindFirstChild("PlayerStats")
-		if stats and stats:FindFirstChild("Style") then
-			stats.Style.Value = "NEL Bachira"
-		end
-		StarterGui:SetCore("SendNotification", {
-			Title = "Chronatic Hub",
-			Text = "Successfully Applied by Faheem!",
-			Duration = 5
-		})
-	end,
+StyleSection:CreateButton({
+    Name = "Set Style: NEL Bachira",
+    Callback = function()
+        local player = Players.LocalPlayer
+        local stats = player:FindFirstChild("PlayerStats")
+        if stats and stats:FindFirstChild("Style") then
+            stats.Style.Value = "NEL Bachira"
+        end
+        StarterGui:SetCore("SendNotification", {
+            Title = "★Service Chronotic Ai",
+            Text = "Set Style to NEL Bachira Successfully!",
+            Duration = 5
+        })
+    end,
 })
 
-StyleManagerSection:CreateButton({
-	Name = "Set Style: NEL ISAGI",
-	Callback = function()
-		local player = Players.LocalPlayer
-		local stats = player:FindFirstChild("PlayerStats")
-		if stats and stats:FindFirstChild("Style") then
-			stats.Style.Value = "NEL Isagi"
-		end
-		StarterGui:SetCore("SendNotification", {
-			Title = "Chronatic Hub",
-			Text = "Successfully Applied by Faheem!",
-			Duration = 5
-		})
-	end,
+StyleSection:CreateButton({
+    Name = "Set Style: NEL Isagi",
+    Callback = function()
+        local player = Players.LocalPlayer
+        local stats = player:FindFirstChild("PlayerStats")
+        if stats and stats:FindFirstChild("Style") then
+            stats.Style.Value = "NEL Isagi"
+        end
+        StarterGui:SetCore("SendNotification", {
+            Title = "★Service Chronotic Ai",
+            Text = "Set Style to NEL Isagi Successfully!",
+            Duration = 5
+        })
+    end,
 })
 
--- Troll Section (Body Lock Toggle)
-local BodyLockEnabled = false
+--// Section 2: Player Settings
+local PlayerSection = StyleTab:CreateSection("Player Settings")
 
-TrollSection:CreateToggle({
-	Name = "Kunigami Reo Body Lock",
-	CurrentValue = false,
-	Callback = function(Value)
-		BodyLockEnabled = Value
-		if BodyLockEnabled then
-			spawn(function()
-				while BodyLockEnabled do
-					task.wait(0.1)
-					local player = Players.LocalPlayer
-					local closest = nil
-					local shortestDistance = math.huge
-					for _, v in pairs(Players:GetPlayers()) do
-						if v ~= player and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
-							local dist = (player.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).Magnitude
-							if dist < shortestDistance then
-								shortestDistance = dist
-								closest = v
-							end
-						end
-					end
-					if closest then
-						player.Character.HumanoidRootPart.CFrame = CFrame.new(player.Character.HumanoidRootPart.Position, closest.Character.HumanoidRootPart.Position)
-					end
-				end
-			end)
-		end
-		StarterGui:SetCore("SendNotification", {
-			Title = "Chronatic Hub",
-			Text = "Body Lock: "..(BodyLockEnabled and "Enabled" or "Disabled"),
-			Duration = 5
-		})
-	end,
+PlayerSection:CreateSlider({
+    Name = "WalkSpeed",
+    Range = {10,150},
+    Increment = 1,
+    Suffix = "Speed",
+    CurrentValue = 16,
+    Callback = function(Value)
+        local player = Players.LocalPlayer
+        if player.Character and player.Character:FindFirstChild("Humanoid") then
+            player.Character.Humanoid.WalkSpeed = Value
+        end
+    end,
 })
 
--- Sections inside Fun Tab
-local LocalPlayerSection = FunTab:CreateSection("LocalPlayer Settings")
-local FunSection = FunTab:CreateSection("Fun")
-local UsefulFeaturesSection = FunTab:CreateSection("Useful Features")
-local Opv2Section = FunTab:CreateSection("Opv2")
+PlayerSection:CreateButton({
+    Name = "Anti Ragdoll",
+    Callback = function()
+        local player = Players.LocalPlayer
+        if player.Character and player.Character:FindFirstChild("Ragdolled") then
+            player.Character.Ragdolled:Destroy()
+        end
+        player.CharacterAdded:Connect(function(character)
+            task.wait(0.5)
+            local rag = character:FindFirstChild("Ragdolled")
+            if rag then
+                rag:Destroy()
+            end
+        end)
+        StarterGui:SetCore("SendNotification", {
+            Title = "★Service Chronotic Ai",
+            Text = "Anti Ragdoll Enabled!",
+            Duration = 5
+        })
+    end,
+})
 
--- Infinite Flow Toggle
+PlayerSection:CreateButton({
+    Name = "Anti Breaker",
+    Callback = function()
+        local player = Players.LocalPlayer
+        if player.Character and player.Character:FindFirstChild("Breaker") then
+            player.Character.Breaker:Destroy()
+        end
+        StarterGui:SetCore("SendNotification", {
+            Title = "★Service Chronotic Ai",
+            Text = "Anti Breaker Enabled!",
+            Duration = 5
+        })
+    end,
+})
+
 local InfiniteFlowEnabled = false
 
-LocalPlayerSection:CreateToggle({
-	Name = "Infinite Flow Mode",
-	CurrentValue = false,
-	Callback = function(Value)
-		InfiniteFlowEnabled = Value
-		if InfiniteFlowEnabled then
-			spawn(function()
-				while InfiniteFlowEnabled do
-					task.wait(1)
-					local player = Players.LocalPlayer
-					if player and player:FindFirstChild("PlayerStats") then
-						player.PlayerStats.InFlow.Value = true
-					end
-				end
-			end)
-		end
-		StarterGui:SetCore("SendNotification", {
-			Title = "Chronatic Hub",
-			Text = "Successfully Applied by Faheem!",
-			Duration = 5
-		})
-	end,
+PlayerSection:CreateToggle({
+    Name = "Infinite Flow",
+    CurrentValue = false,
+    Callback = function(Value)
+        InfiniteFlowEnabled = Value
+        if InfiniteFlowEnabled then
+            spawn(function()
+                while InfiniteFlowEnabled do
+                    task.wait(1)
+                    local player = Players.LocalPlayer
+                    if player and player:FindFirstChild("PlayerStats") then
+                        player.PlayerStats.InFlow.Value = true
+                    end
+                end
+            end)
+        end
+        StarterGui:SetCore("SendNotification", {
+            Title = "★Service Chronotic Ai",
+            Text = InfiniteFlowEnabled and "Infinite Flow Enabled!" or "Infinite Flow Disabled!",
+            Duration = 5
+        })
+    end,
 })
 
--- Fun Section (WalkSpeed + Anti Ragdoll + Anti Ankle Break)
-FunSection:CreateSlider({
-	Name = "WalkSpeed Controller",
-	Range = {10, 150},
-	Increment = 1,
-	Suffix = "Speed",
-	CurrentValue = 16,
-	Callback = function(Value)
-		local character = Players.LocalPlayer.Character
-		if character and character:FindFirstChild("Humanoid") then
-			character.Humanoid.WalkSpeed = Value
-		end
-	end,
+--// Section 3: Recommend
+local RecommendSection = StyleTab:CreateSection("Recommend")
+
+local NoCooldownEnabled = false
+RecommendSection:CreateToggle({
+    Name = "No Cooldown Ability",
+    CurrentValue = false,
+    Callback = function(Value)
+        NoCooldownEnabled = Value
+        if NoCooldownEnabled then
+            local C = require(ReplicatedStorage.Controllers.AbilityController)
+            local o = C.AbilityCooldown
+            C.AbilityCooldown = function(s, n, ...) return o(s, n, 0, ...) end
+        end
+        StarterGui:SetCore("SendNotification", {
+            Title = "★Service Chronotic Ai",
+            Text = NoCooldownEnabled and "No Cooldown Enabled!" or "No Cooldown Disabled!",
+            Duration = 5
+        })
+    end,
 })
 
-FunSection:CreateButton({
-	Name = "Anti Ragdoll",
-	Callback = function()
-		local player = Players.LocalPlayer
-		player.CharacterAdded:Connect(function(character)
-			character:WaitForChild("Ragdolled", 5)
-			local rag = character:FindFirstChild("Ragdolled")
-			if rag then
-				rag:Destroy()
-			end
-		end)
-		if player.Character and player.Character:FindFirstChild("Ragdolled") then
-			player.Character.Ragdolled:Destroy()
-		end
-		StarterGui:SetCore("SendNotification", {
-			Title = "Chronatic Hub",
-			Text = "Anti Ragdoll Activated by Faheem!",
-			Duration = 5
-		})
-	end,
+local InfiniteAwakeningEnabled = false
+RecommendSection:CreateToggle({
+    Name = "Infinite Awakening",
+    CurrentValue = false,
+    Callback = function(Value)
+        InfiniteAwakeningEnabled = Value
+        if InfiniteAwakeningEnabled then
+            spawn(function()
+                while InfiniteAwakeningEnabled do
+                    task.wait(1)
+                    local player = Players.LocalPlayer
+                    local AbilityController = require(ReplicatedStorage:WaitForChild("Controllers"):WaitForChild("AbilityController"))
+                    player.PlayerStats.InAwakening.Value = true
+                    AbilityController:UseAbility("Awakening")
+                end
+            end)
+        end
+        StarterGui:SetCore("SendNotification", {
+            Title = "★Service Chronotic Ai",
+            Text = InfiniteAwakeningEnabled and "Infinite Awakening Enabled!" or "Infinite Awakening Disabled!",
+            Duration = 5
+        })
+    end,
 })
 
-FunSection:CreateButton({
-	Name = "Anti Ankle Break",
-	Callback = function()
-		local player = Players.LocalPlayer
-		local antiRagdollEnabled = true
-		local function disableRagdoll()
-			while antiRagdollEnabled do
-				if player.Character and player.Character:FindFirstChild("Ragdolled") then
-					player.Character.Ragdolled:Destroy()
-				end
-				task.wait()
-			end
-		end
-		task.spawn(disableRagdoll)
-		StarterGui:SetCore("SendNotification", {
-			Title = "Chronatic Hub",
-			Text = "Anti Ankle Break Activated by Faheem!",
-			Duration = 5
-		})
-	end,
+--// Section 4: Protection
+local ProtectionSection = StyleTab:CreateSection("Protection")
+
+local AntiKickEnabled = false
+ProtectionSection:CreateToggle({
+    Name = "Anti Kick (Op Power)",
+    CurrentValue = false,
+    Callback = function(Value)
+        AntiKickEnabled = Value
+        if AntiKickEnabled then
+            local mt = getrawmetatable(game)
+            setreadonly(mt, false)
+            local old = mt.__namecall
+            mt.__namecall = newcclosure(function(self, ...)
+                if getnamecallmethod() == "Kick" then
+                    warn("★Service Chronotic Ai: Kick Blocked!")
+                    return
+                end
+                return old(self, ...)
+            end)
+        end
+        StarterGui:SetCore("SendNotification", {
+            Title = "★Service Chronotic Ai",
+            Text = AntiKickEnabled and "Anti Kick Enabled!" or "Anti Kick Disabled!",
+            Duration = 5
+        })
+    end,
 })
 
--- Useful Features Section
-UsefulFeaturesSection:CreateButton({
-	Name = "Enable Infinite Awakening",
-	Callback = function()
-		local AbilityController = require(ReplicatedStorage:WaitForChild("Controllers"):WaitForChild("AbilityController"))
-		local LocalPlayer = Players.LocalPlayer
-
-		StarterGui:SetCore("SendNotification", {
-			Title = "InfAwakening",
-			Text = "Only works if Style is Kaiser, King, or Kurona!",
-			Duration = 7
-		})
-
-		spawn(function()
-			while true do
-				task.wait(1)
-				LocalPlayer.PlayerStats.InAwakening.Value = true
-				AbilityController:UseAbility("Awakening")
-			end
-		end)
-
-		StarterGui:SetCore("SendNotification", {
-			Title = "Chronatic Hub",
-			Text = "Successfully Applied by Faheem!",
-			Duration = 5
-		})
-	end,
+local AntiBanEnabled = false
+ProtectionSection:CreateToggle({
+    Name = "Anti Ban (Op Power)",
+    CurrentValue = false,
+    Callback = function(Value)
+        AntiBanEnabled = Value
+        if AntiBanEnabled then
+            spawn(function()
+                while AntiBanEnabled do
+                    local player = Players.LocalPlayer
+                    if player and player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
+                        player.Character:FindFirstChildOfClass("Humanoid").BreakJointsOnDeath = false
+                    end
+                    task.wait(1)
+                end
+            end)
+        end
+        StarterGui:SetCore("SendNotification", {
+            Title = "★Service Chronotic Ai",
+            Text = AntiBanEnabled and "Anti Ban Enabled!" or "Anti Ban Disabled!",
+            Duration = 5
+        })
+    end,
 })
 
-UsefulFeaturesSection:CreateButton({
-	Name = "Enable Anti Kick BLR",
-	Callback = function()
-		local mt = getrawmetatable(game)
-		setreadonly(mt, false)
-		local old = mt.__namecall
-		mt.__namecall = newcclosure(function(self, ...)
-			if getnamecallmethod() == "Kick" then
-				warn("Faheem Kick Bypass: Prevented kick attempt!")
-				return
-			end
-			return old(self, ...)
-		end)
-		StarterGui:SetCore("SendNotification", {
-			Title = "Chronatic Hub",
-			Text = "Successfully Applied by Faheem!",
-			Duration = 5
-		})
-	end,
-})
-
-UsefulFeaturesSection:CreateButton({
-	Name = "Enable No Cooldown Ability",
-	Callback = function()
-		local C = require(ReplicatedStorage.Controllers.AbilityController)
-		local o = C.AbilityCooldown
-		C.AbilityCooldown = function(s, n, ...) return o(s, n, 0, ...) end
-		StarterGui:SetCore("SendNotification", {
-			Title = "Chronatic Hub",
-			Text = "Successfully Applied by Faheem!",
-			Duration = 5
-		})
-	end,
-})
-
--- Opv2 Section (Control Ball Button)
-Opv2Section:CreateButton({
-	Name = "Control Ball (Faheem)",
-	Callback = function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/Faheem-lua/Main-ProjectLua/refs/heads/main/Controll%20Ball.lua"))()
-		StarterGui:SetCore("SendNotification", {
-			Title = "Chronatic Hub",
-			Text = "Successfully Loaded Control Ball by Faheem!",
-			Duration = 5
-		})
-	end,
+--// Final: Important Reo Note
+StyleTab:CreateParagraph({
+    Title = "Note:",
+    Content = "For the style working please have Reo style!"
 })
